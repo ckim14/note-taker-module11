@@ -5,7 +5,7 @@ const fs = require("fs");
 const bodyParser = require("body-parser");
 const KSUID = require("ksuid");
 
-const PORT = 4001;
+const PORT = process.env.PORT || 4001;
 
 // Initialize our app variable by setting it to the value of express()
 const app = express();
