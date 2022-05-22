@@ -52,6 +52,23 @@ app.post("/api/notes", (req, res) => {
   res.status(201).json(newNote);
 });
 
+// verify the provided noteId exists and delete it from db.json
+app.delete("/api/notes/:noteId", (req, res) => {
+  const notesData = readNotes();
+
+  const doesExist = notesData.findIndex(
+    (note) => note.id === req.params.noteId
+  );
+  if (doesExist === -1) {
+    res.status(404).json(`note id ${req.params.noteId} does not exist`);
+    return;
+  }
+
+  notesData.splice(doesExist, 1);
+  saveNotes(notesData);
+  res.status(200).send("OK");
+});
+
 app.get("/notes", (req, res) => {
   // `res.sendFile` is Express' way of sending a file
   // `__dirname` is a variable that always returns the directory that your server is running in
